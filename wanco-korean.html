@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐾 わんこと韓国語会話（韓国語→日本語）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Georgia:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F0F8FF;
+    --light: #E0EEFF;
+    --mist: #C8DCFF;
+    --sky: #A8C4FF;
+    --blue: #4A7FD9;
+    --dark-blue: #2E5DB4;
+    --navy: #1A3A7A;
+    --deep: #0F2550;
+    --accent: #E83A6A;
+    --dark-accent: #C82850;
+    --gold: #FFD700;
+    --soft-red: #FF6B8A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: linear-gradient(160deg, var(--cream) 0%, var(--light) 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  #app {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0 24px;
+    background: linear-gradient(160deg, var(--cream) 0%, var(--light) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* 태극기 장식 */
+  #app::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,40,80,0.07) 0%, rgba(74,127,217,0.07) 100%);
+    pointer-events: none;
+  }
+
+  /* ===== HEADER ===== */
+  .header { padding: 0 20px; }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .app-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: 0.3px;
+  }
+
+  .app-subtitle {
+    font-size: 11px;
+    color: var(--blue);
+    font-weight: 300;
+    margin-top: 1px;
+  }
+
+  .day-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dark-blue);
+    background: rgba(168,196,255,0.6);
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.15s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .day-btn:hover { background: var(--mist); transform: scale(1.04); }
+
+  .progress-bar-wrap {
+    background: rgba(168,196,255,0.3);
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--blue));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  .progress-label {
+    font-size: 11px;
+    color: rgba(46,93,180,0.8);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  /* ===== PHRASE CARD ===== */
+  .card-wrap {
+    padding: 0 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .phrase-card {
+    background: rgba(255,255,255,0.93);
+    border-radius: 28px;
+    box-shadow: 0 8px 32px rgba(74,127,217,0.14);
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    min-height: 340px;
+    justify-content: center;
+    border: 1.5px solid rgba(168,196,255,0.4);
+  }
+
+  /* ===== DOG CHARACTER ===== */
+  .dog-wrap {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .dog-shadow {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 64px;
+    height: 13px;
+    background: rgba(74,127,217,0.12);
+    border-radius: 50%;
+  }
+
+  .dog-emoji {
+    font-size: 68px;
+    position: relative;
+    z-index: 1;
+    display: block;
+    user-select: none;
+  }
+
+  .dog-note {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    font-size: 19px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .dog-wrap.singing .dog-note { opacity: 1; }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-9px) rotate(3deg); }
+    75% { transform: translateY(-5px) rotate(-3deg); }
+  }
+
+  .dog-wrap.playing .dog-emoji {
+    animation: bounce 0.9s ease-in-out infinite;
+  }
+
+  /* ===== CARD CONTENT ===== */
+  .card-content {
+    width: 100%;
+    text-align: center;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .category-badge {
+    display: inline-block;
+    background: rgba(168,196,255,0.35);
+    color: var(--dark-blue);
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 20px;
+    padding: 3px 12px;
+    margin-bottom: 2px;
+  }
+
+  .english-text {
+    font-family: 'Georgia', serif;
+    font-size: 23px;
+    font-weight: 700;
+    color: var(--deep);
+    line-height: 1.4;
+  }
+
+  .korean-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .korean-text {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1.5;
+  }
+
+  .romanize-text {
+    font-size: 12px;
+    color: var(--blue);
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .hint-text {
+    font-size: 12px;
+    color: var(--blue);
+    margin-top: 2px;
+  }
+
+  .prompt-big { font-size: 28px; }
+
+  .prompt-text {
+    font-size: 16px;
+    color: rgba(74,127,217,0.8);
+    font-weight: 300;
+  }
+
+  .done-text {
+    font-size: 16px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .idle-day-text {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+
+  .idle-phrases {
+    margin: 4px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: flex-start;
+    padding: 0 12px;
+  }
+
+  .idle-phrase-item {
+    font-family: 'Georgia', serif;
+    font-size: 13px;
+    color: var(--dark-blue);
+  }
+
+  .idle-hint {
+    font-size: 15px;
+    color: rgba(46,93,180,0.8);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* Review UI */
+  .review-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 6px;
+  }
+  .rdot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--light);
+    transition: background 0.3s;
+  }
+  .rdot.active { background: var(--accent); }
+
+  .review-counter {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--blue);
+    margin-bottom: 4px;
+  }
+
+  .review-kr-big {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 4px 0;
+    line-height: 1.5;
+  }
+
+  .review-thinking { font-size: 26px; margin: 2px 0; }
+
+  .review-answer-text {
+    font-family: 'Georgia', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 4px;
+  }
+
+  .finished-emoji { font-size: 48px; margin-bottom: 4px; }
+  .finished-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .finished-sub {
+    font-size: 15px;
+    color: var(--blue);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ===== CONTROLS ===== */
+  .controls {
+    padding: 0 20px;
+    margin-top: 12px;
+  }
+
+  .control-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+  }
+
+  .stop-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 44px;
+    color: var(--blue);
+    opacity: 0.3;
+    transition: opacity 0.2s, transform 0.2s;
+    line-height: 1;
+    padding: 0;
+  }
+  .stop-btn.active { opacity: 1; }
+  .stop-btn.active:hover { transform: scale(1.08); }
+  .stop-btn:disabled { cursor: default; }
+
+  .play-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--accent), var(--dark-accent));
+    box-shadow: 0 4px 18px rgba(200,40,80,0.35);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+    color: white;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .play-btn.review-mode {
+    background: linear-gradient(135deg, var(--blue), var(--dark-blue));
+    box-shadow: 0 4px 18px rgba(46,93,180,0.35);
+  }
+  .play-btn:hover:not(:disabled) { transform: scale(1.06); }
+  .play-btn:disabled { transform: scale(0.95); cursor: default; opacity: 0.88; }
+  .play-btn .btn-icon { font-size: 24px; line-height: 1; }
+  .play-btn .btn-label { font-size: 9px; font-weight: 700; letter-spacing: 0.3px; text-align: center; }
+
+  .phrase-num {
+    width: 60px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .num-sub { font-size: 10px; color: rgba(46,93,180,0.6); }
+  .num-main { font-size: 22px; font-weight: 700; color: var(--navy); line-height: 1.2; }
+  .num-total { font-size: 10px; color: rgba(46,93,180,0.6); }
+  .num-review { font-size: 20px; font-weight: 700; color: var(--accent); line-height: 1.2; }
+  .num-review-sub { font-size: 10px; color: rgba(200,40,80,0.8); }
+
+  /* ===== DAY PICKER MODAL ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal-panel {
+    background: var(--cream);
+    border-radius: 28px 28px 0 0;
+    padding: 20px 16px 36px;
+    width: 100%;
+    max-width: 430px;
+    max-height: 80vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.28s cubic-bezier(0.34,1.1,0.64,1);
+  }
+  .modal-overlay.open .modal-panel { transform: translateY(0); }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .modal-title { font-size: 17px; font-weight: 700; color: var(--navy); }
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 15px;
+    color: var(--blue);
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+  }
+
+  .day-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+  }
+
+  .day-grid-btn {
+    background: var(--light);
+    border: none;
+    border-radius: 10px;
+    padding: 9px 4px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    transition: transform 0.15s, background 0.15s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .day-grid-btn:hover { transform: scale(1.06); background: var(--mist); }
+  .day-grid-btn.current { background: var(--accent); }
+  .day-grid-btn .dnum { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .day-grid-btn .dlabel { font-size: 8px; color: var(--blue); }
+  .day-grid-btn.current .dnum,
+  .day-grid-btn.current .dlabel { color: white; }
+
+  /* ===== LANG INDICATOR ===== */
+  .lang-flags {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 16px;
+    margin-top: 1px;
+  }
+  .lang-arrow { font-size: 11px; color: var(--blue); }
+
+  .fade-in {
+    animation: fadeIn 0.4s ease both;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="app-title">🐾 わんこと韓国語会話</div>
+        <div class="lang-flags">🇰🇷 <span class="lang-arrow">→</span> 🇯🇵 <span style="font-size:11px;color:var(--blue);margin-left:2px;">韓国語→日本語</span></div>
+      </div>
+      <button class="day-btn" onclick="openDayPicker()">📅 Day <span id="dayLabel">1</span></button>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">1 / 5 フレーズ目</div>
+  </div>
+
+  <!-- PHRASE CARD -->
+  <div class="card-wrap">
+    <div class="phrase-card">
+      <div class="dog-wrap" id="dogWrap">
+        <div class="dog-shadow"></div>
+        <span class="dog-emoji" id="dogEmoji">🐶</span>
+        <span class="dog-note">♪</span>
+      </div>
+      <div class="card-content" id="cardContent"></div>
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <div class="control-row">
+      <button class="stop-btn" id="stopBtn" onclick="handleStop()" disabled>⏹</button>
+      <button class="play-btn" id="playBtn" onclick="handlePlay()">
+        <span class="btn-icon" id="btnIcon">▶</span>
+        <span class="btn-label" id="btnLabel">スタート</span>
+      </button>
+      <div class="phrase-num" id="phraseNum">
+        <span class="num-sub">No.</span>
+        <span class="num-main" id="numMain">1</span>
+        <span class="num-total">/ 300</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DAY PICKER MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeDayPickerOutside(event)">
+  <div class="modal-panel">
+    <div class="modal-header">
+      <div class="modal-title">📅 日を選ぶ</div>
+      <button class="modal-close" onclick="closeDayPicker()">閉じる</button>
+    </div>
+    <div class="day-grid" id="dayGrid"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 🐾 わんこと韓国語会話 - 全300フレーズ（韓国語→日本語）
+// ============================================================
+
+const ALL_PHRASES = [
+  // ① 挨拶（1〜30）
+  {id:1,  en:"Hi there.",               kr:"안녕하세요!",              rom:"annyeonghaseyo",        ja:"やあ、こんにちは！",           cat:"① 인사"},
+  {id:2,  en:"Hello again.",            kr:"또 만났네요.",             rom:"tto mannanneyo",        ja:"また会いましたね。",             cat:"① 인사"},
+  {id:3,  en:"How are you doing?",      kr:"잘 지내고 있나요?",         rom:"jal jinaego innayo",    ja:"お元気ですか？",               cat:"① 인사"},
+  {id:4,  en:"Nice to see you.",        kr:"만나서 반가워요.",           rom:"mannaseo bangawoyo",    ja:"お会いできて嬉しいです。",         cat:"① 인사"},
+  {id:5,  en:"Long time no see.",       kr:"오랜만이에요.",             rom:"oraenmanieyo",          ja:"お久しぶりですね。",             cat:"① 인사"},
+  {id:6,  en:"What's up?",              kr:"요즘 어떻게 지내요?",        rom:"yojeum eotteoke jinaeyo",  ja:"最近どうですか？",cat:"① 인사"},
+  {id:7,  en:"How's it going?",         kr:"어떻게 지내세요?",           rom:"eotteoke jinaeseyo",  ja:"調子はどうですか？",    cat:"① 인사"},
+  {id:8,  en:"Good to see you.",        kr:"만나서 좋아요.",            rom:"mannaseo joayo",  ja:"お会いできてよかったです。",        cat:"① 인사"},
+  {id:9,  en:"Welcome back.",           kr:"다시 오셨네요.",            rom:"dasi osyeonneyo",  ja:"おかえりなさい。",       cat:"① 인사"},
+  {id:10, en:"It's been a while.",      kr:"오랜만이에요.",             rom:"oraenmanieyo",  ja:"しばらくぶりですね。",          cat:"① 인사"},
+  {id:11, en:"How have you been?",      kr:"그동안 잘 지내셨어요?",      rom:"geudong-an jal jinaesyeosseoyo",  ja:"ずっとお元気でしたか？", cat:"① 인사"},
+  {id:12, en:"I'm glad you're here.",   kr:"와 주셔서 기뻐요.",         rom:"wa jusyeoseo gippeoyo",  ja:"来てくれてうれしいです。", cat:"① 인사"},
+  {id:13, en:"It's good to meet you.",  kr:"만나서 영광이에요.",         rom:"mannaseo yeonggwangieyo",  ja:"お会いできて光栄です。",cat:"① 인사"},
+  {id:14, en:"What's new?",             kr:"새로운 일 있었어요?",        rom:"saeroun il isseosseoyo",  ja:"何か新しいことありましたか？",cat:"① 인사"},
+  {id:15, en:"What's happening?",       kr:"무슨 일 있어요?",           rom:"museun il isseoyo",  ja:"何かありましたか？",     cat:"① 인사"},
+  {id:16, en:"How's your day going?",   kr:"오늘 어떻게 보내고 있어요?",  rom:"oneul eotteoke bonaego isseoyo",  ja:"今日はどんな一日ですか？", cat:"① 인사"},
+  {id:17, en:"I'm happy to see you.",   kr:"만나서 기뻐요.",            rom:"mannaseo gippeoyo",  ja:"お会いできて嬉しいです。",     cat:"① 인사"},
+  {id:18, en:"Good morning.",           kr:"좋은 아침이에요.",           rom:"joeun achimieyo",  ja:"おはようございます。",       cat:"① 인사"},
+  {id:19, en:"Good afternoon.",         kr:"안녕하세요.",               rom:"annyeonghaseyo",  ja:"こんにちは。",        cat:"① 인사"},
+  {id:20, en:"Good evening.",           kr:"좋은 저녁이에요.",           rom:"joeun jeonyogieyo",  ja:"こんばんは。",     cat:"① 인사"},
+  {id:21, en:"Hey there.",              kr:"야, 안녕!",                rom:"ya, annyeong",  ja:"やあ！",          cat:"① 인사"},
+  {id:22, en:"Nice meeting you.",       kr:"만나서 반가웠어요.",          rom:"mannaseo bangawosseoyo",  ja:"お会いできてよかったです。",cat:"① 인사"},
+  {id:23, en:"How are things?",         kr:"어떻게 지내요?",            rom:"eotteoke jinaeyo",  ja:"どんな感じですか？",      cat:"① 인사"},
+  {id:24, en:"Everything okay?",        kr:"다 괜찮아요?",              rom:"da gwaenchanhayo",  ja:"大丈夫ですか？",      cat:"① 인사"},
+  {id:25, en:"What's going on?",        kr:"무슨 일이에요?",            rom:"museun irieyo",  ja:"どうかしましたか？",         cat:"① 인사"},
+  {id:26, en:"How's life?",             kr:"요즘 어떻게 살고 있어요?",    rom:"yojeum eotteoke salgo isseoyo",  ja:"最近どんな生活ですか？",cat:"① 인사"},
+  {id:27, en:"How are things going?",   kr:"일은 잘 되고 있어요?",       rom:"ireun jal doego isseoyo",  ja:"物事は順調ですか？",cat:"① 인사"},
+  {id:28, en:"I'm doing well.",         kr:"저는 잘 지내고 있어요.",      rom:"jeoneun jal jinaego isseoyo",  ja:"元気にしています。",cat:"① 인사"},
+  {id:29, en:"Not bad at all.",         kr:"꽤 괜찮아요.",              rom:"kkwae gwaenchanhayo",  ja:"なかなかいい感じですよ。",   cat:"① 인사"},
+  {id:30, en:"Pretty good.",            kr:"꽤 좋아요.",               rom:"kkwae joayo",  ja:"まあまあ良いです。",           cat:"① 인사"},
+
+  // ② 日常会話（31〜80）
+  {id:31, en:"What are you doing?",     kr:"뭐 하고 있어요?",           rom:"mwo hago isseoyo",  ja:"何をしていますか？",      cat:"② 일상회화"},
+  {id:32, en:"Where are you going?",    kr:"어디 가요?",               rom:"eodi gayo",  ja:"どこへ行くのですか？",             cat:"② 일상회화"},
+  {id:33, en:"What do you mean?",       kr:"무슨 뜻이에요?",            rom:"museun tteuisieyo",  ja:"どういう意味ですか？",     cat:"② 일상회화"},
+  {id:34, en:"Are you busy?",           kr:"바빠요?",                  rom:"bappayo",  ja:"忙しいですか？",               cat:"② 일상회화"},
+  {id:35, en:"Not really.",             kr:"그다지 안 바빠요.",           rom:"geudaji an bappayo",  ja:"それほどでもないです。",    cat:"② 일상회화"},
+  {id:36, en:"Can you help me?",        kr:"도와줄 수 있어요?",          rom:"dowajul su isseoyo",  ja:"手伝ってもらえますか？",    cat:"② 일상회화"},
+  {id:37, en:"Sure, why not?",          kr:"물론이죠, 왜 안 되겠어요?",   rom:"mullonjyo, wae an doegesseoyo",  ja:"もちろん、いいですよ。",cat:"② 일상회화"},
+  {id:38, en:"Just a second.",          kr:"잠깐만요.",                 rom:"jamkkanmanyo",  ja:"少し待ってください。",          cat:"② 일상회화"},
+  {id:39, en:"Give me a moment.",       kr:"잠시만요.",                 rom:"jamsimanyo",  ja:"少し時間をください。",            cat:"② 일상회화"},
+  {id:40, en:"I'll be right back.",     kr:"금방 돌아올게요.",            rom:"geumbang doraolgeyo",  ja:"すぐ戻ります。",   cat:"② 일상회화"},
+  {id:41, en:"That makes sense.",       kr:"그렇군요, 알겠어요.",         rom:"geureokkunyo, algesseoyo",  ja:"なるほど、わかります。",cat:"② 일상회화"},
+  {id:42, en:"I understand.",           kr:"알겠어요.",                 rom:"algesseoyo",  ja:"わかりました。",            cat:"② 일상회화"},
+  {id:43, en:"I see.",                  kr:"그렇군요.",                 rom:"geureokkunyo",  ja:"そうですか。",          cat:"② 일상회화"},
+  {id:44, en:"You're right.",           kr:"맞아요.",                  rom:"majayo",  ja:"おっしゃる通りです。",                cat:"② 일상회화"},
+  {id:45, en:"I agree.",                kr:"동의해요.",                 rom:"dong-uihaeyo",  ja:"同意します。",          cat:"② 일상회화"},
+  {id:46, en:"Maybe you're right.",     kr:"그럴 수도 있겠네요.",         rom:"geureol sudo itgenne​yo",  ja:"そうかもしれませんね。",cat:"② 일상회화"},
+  {id:47, en:"That sounds good.",       kr:"좋겠네요.",                 rom:"jokenneyo",  ja:"それはいいですね。",             cat:"② 일상회화"},
+  {id:48, en:"Sounds like a plan.",     kr:"좋은 계획이네요.",            rom:"joeun gyehoegineyo",  ja:"いい計画ですね。",    cat:"② 일상회화"},
+  {id:49, en:"That's a good idea.",     kr:"좋은 생각이에요.",            rom:"joeun saenggagieyo",  ja:"それはいいアイデアです。",    cat:"② 일상회화"},
+  {id:50, en:"Let's do that.",          kr:"그렇게 해요.",               rom:"geureoke haeyo",  ja:"そうしましょう。",        cat:"② 일상회화"},
+  {id:51, en:"I'm not sure.",           kr:"잘 모르겠어요.",             rom:"jal moreugesseoyo",  ja:"よくわかりません。",     cat:"② 일상회화"},
+  {id:52, en:"I don't know.",           kr:"몰라요.",                  rom:"mollayo",  ja:"知りません。",               cat:"② 일상회화"},
+  {id:53, en:"Let me think.",           kr:"생각해 볼게요.",             rom:"saenggakhae bolgeyo",  ja:"ちょっと考えさせてください。",   cat:"② 일상회화"},
+  {id:54, en:"I'll check.",             kr:"확인해 볼게요.",             rom:"hwaginghae bolgeyo",  ja:"確認してみます。",    cat:"② 일상회화"},
+  {id:55, en:"Just wait here.",         kr:"여기서 기다려 주세요.",        rom:"yeogiseo gidaryeo juseyo",  ja:"ここで待っていてください。",cat:"② 일상회화"},
+  {id:56, en:"Follow me.",              kr:"따라오세요.",               rom:"ttaraoaseyo",  ja:"ついてきてください。",           cat:"② 일상회화"},
+  {id:57, en:"Come with me.",           kr:"같이 가요.",                rom:"gachi gayo",  ja:"一緒に来てください。",            cat:"② 일상회화"},
+  {id:58, en:"Let's go.",               kr:"가요!",                    rom:"gayo",  ja:"行きましょう。",                  cat:"② 일상회화"},
+  {id:59, en:"Hold on.",                kr:"잠깐만요.",                 rom:"jamkkanmanyo",  ja:"ちょっと待って。",          cat:"② 일상회화"},
+  {id:60, en:"Wait a minute.",          kr:"잠깐만 기다려 주세요.",        rom:"jamkkanman gidaryeo juseyo",  ja:"少し待ってください。",cat:"② 일상회화"},
+  {id:61, en:"That's interesting.",     kr:"흥미롭네요.",               rom:"heungmiropneyo",  ja:"それは面白いですね。",        cat:"② 일상회화"},
+  {id:62, en:"Really?",                 kr:"정말요?",                  rom:"jeongmallyo",  ja:"本当ですか？",           cat:"② 일상회화"},
+  {id:63, en:"Are you serious?",        kr:"진심이에요?",               rom:"jinsimieyo",  ja:"本気ですか？",            cat:"② 일상회화"},
+  {id:64, en:"No way.",                 kr:"설마!",                    rom:"seolma",  ja:"まさか！",                cat:"② 일상회화"},
+  {id:65, en:"That's amazing.",         kr:"놀랍네요!",                 rom:"nollamnneyo",  ja:"それは素晴らしい！",           cat:"② 일상회화"},
+  {id:66, en:"That's surprising.",      kr:"놀라워요.",                 rom:"nollawoyo",  ja:"それは驚きですね。",             cat:"② 일상회화"},
+  {id:67, en:"That's funny.",           kr:"재미있네요!",               rom:"jaemiinneyo",  ja:"それは面白い！",           cat:"② 일상회화"},
+  {id:68, en:"That's strange.",         kr:"이상하네요.",               rom:"isangghaneyo",  ja:"それは不思議ですね。",          cat:"② 일상회화"},
+  {id:69, en:"That's true.",            kr:"그건 사실이에요.",            rom:"geugeon sasirieyo",  ja:"それは本当ですね。",     cat:"② 일상회화"},
+  {id:70, en:"I get it.",               kr:"알겠어요.",                 rom:"algesseoyo",  ja:"わかりました。",            cat:"② 일상회화"},
+  {id:71, en:"Now I understand.",       kr:"이제 알겠어요.",             rom:"ije algesseoyo",  ja:"今わかりました。",        cat:"② 일상회화"},
+  {id:72, en:"That's better.",          kr:"그게 더 좋네요.",             rom:"geuge deo jonneyo",  ja:"それの方がいいですね。",     cat:"② 일상회화"},
+  {id:73, en:"That works.",             kr:"그렇게 하면 돼요.",           rom:"geureoke hamyeon dwaeyo",  ja:"それでうまくいきます。",cat:"② 일상회화"},
+  {id:74, en:"Good thinking.",          kr:"좋은 생각이에요.",            rom:"joeun saenggagieyo",  ja:"いい考えですね。",    cat:"② 일상회화"},
+  {id:75, en:"That was close.",         kr:"아슬아슬했네요.",             rom:"aseulaseulhaenneyo",  ja:"危なかったですね。",    cat:"② 일상회화"},
+  {id:76, en:"Not bad.",                kr:"나쁘지 않네요.",             rom:"nappeuji anneyo",  ja:"悪くないですね。",       cat:"② 일상회화"},
+  {id:77, en:"Pretty good.",            kr:"꽤 좋아요.",               rom:"kkwae joayo",  ja:"かなりいいですよ。",           cat:"② 일상회화"},
+  {id:78, en:"That's enough.",          kr:"그거면 충분해요.",            rom:"geugeo myeon chungbunhaeyo",  ja:"それで十分です。",cat:"② 일상회화"},
+  {id:79, en:"That's fine.",            kr:"괜찮아요.",                 rom:"gwaenchanhayo",  ja:"それで大丈夫です。",         cat:"② 일상회화"},
+  {id:80, en:"No problem.",             kr:"문제없어요.",               rom:"munjeeopseoyo",  ja:"問題ありません。",         cat:"② 일상회화"},
+
+  // ③ 優しい言葉（81〜130）
+  {id:81,  en:"Are you okay?",              kr:"괜찮아요?",               rom:"gwaenchanhayo",  ja:"大丈夫ですか？",            cat:"③ 따뜻한 말"},
+  {id:82,  en:"Take your time.",            kr:"천천히 해도 돼요.",          rom:"cheoncheonhi haedo dwaeyo",  ja:"ゆっくりでいいですよ。",cat:"③ 따뜻한 말"},
+  {id:83,  en:"Don't worry.",               kr:"걱정하지 마세요.",           rom:"geokjeong-haji maseyo",  ja:"心配しないで。",    cat:"③ 따뜻한 말"},
+  {id:84,  en:"It's alright.",              kr:"괜찮아요.",                rom:"gwaenchanhayo",  ja:"大丈夫ですよ。",            cat:"③ 따뜻한 말"},
+  {id:85,  en:"I'm here for you.",          kr:"제가 여기 있을게요.",        rom:"jega yeogi isseulgeyo",  ja:"そばにいますよ。",    cat:"③ 따뜻한 말"},
+  {id:86,  en:"You can do it.",             kr:"당신이라면 할 수 있어요.",    rom:"dangsinirameyon hal su isseoyo",  ja:"あなたならできます。",cat:"③ 따뜻한 말"},
+  {id:87,  en:"Everything will be fine.",   kr:"분명 잘 될 거예요.",         rom:"bunmyeong jal doel geoyeyo",  ja:"きっとうまくいきますよ。",cat:"③ 따뜻한 말"},
+  {id:88,  en:"It's not a big deal.",       kr:"별거 아니에요.",             rom:"byeolgeo anieyo",  ja:"大したことじゃないですよ。",          cat:"③ 따뜻한 말"},
+  {id:89,  en:"Just relax.",                kr:"편하게 하세요.",             rom:"pyeonhage haseyo",  ja:"リラックスしてください。",         cat:"③ 따뜻한 말"},
+  {id:90,  en:"Take it easy.",              kr:"천천히 해요.",              rom:"cheoncheonhi haeyo",  ja:"気楽にいきましょう。",       cat:"③ 따뜻한 말"},
+  {id:91,  en:"I understand how you feel.", kr:"마음 이해해요.",            rom:"maeum ihaehaeyo",  ja:"お気持ちわかります。",          cat:"③ 따뜻한 말"},
+  {id:92,  en:"That must be hard.",         kr:"많이 힘드셨겠네요.",          rom:"manhi himdeusyeossgenne​yo",  ja:"それは大変でしたね。",cat:"③ 따뜻한 말"},
+  {id:93,  en:"I'm listening.",             kr:"듣고 있어요.",              rom:"deutgo isseoyo",  ja:"聞いていますよ。",           cat:"③ 따뜻한 말"},
+  {id:94,  en:"I believe in you.",          kr:"당신을 믿어요.",             rom:"dangsineul mideoyo",  ja:"あなたを信じています。",        cat:"③ 따뜻한 말"},
+  {id:95,  en:"You're doing great.",        kr:"잘 하고 있어요.",            rom:"jal hago isseoyo",  ja:"よくできていますよ。",         cat:"③ 따뜻한 말"},
+  {id:96,  en:"Keep going.",                kr:"계속 해요.",               rom:"gyesok haeyo",  ja:"続けてください。",             cat:"③ 따뜻한 말"},
+  {id:97,  en:"Don't give up.",             kr:"포기하지 마세요.",           rom:"pogihaji maseyo",  ja:"あきらめないで。",          cat:"③ 따뜻한 말"},
+  {id:98,  en:"You're improving.",          kr:"점점 잘 하고 있어요.",        rom:"jeomjeom jal hago isseoyo",  ja:"どんどん上手になっていますよ。",cat:"③ 따뜻한 말"},
+  {id:99,  en:"Nice try.",                  kr:"잘 하셨어요.",              rom:"jal hasyeosseoyo",  ja:"よく頑張りました。",         cat:"③ 따뜻한 말"},
+  {id:100, en:"Good effort.",               kr:"노력하셨네요.",             rom:"noryeokhasheonne​yo",  ja:"よく努力しましたね。",       cat:"③ 따뜻한 말"},
+  {id:101, en:"I'm proud of you.",          kr:"당신이 자랑스러워요.",        rom:"dangsini jarangseureowoyo",  ja:"あなたを誇りに思います。",cat:"③ 따뜻한 말"},
+  {id:102, en:"That's progress.",           kr:"발전이에요.",               rom:"baljeoni​eyo",  ja:"それは進歩ですよ。",              cat:"③ 따뜻한 말"},
+  {id:103, en:"You're learning.",           kr:"잘 배우고 있어요.",           rom:"jal baeugo isseoyo",  ja:"ちゃんと学んでいますよ。",       cat:"③ 따뜻한 말"},
+  {id:104, en:"Mistakes are okay.",         kr:"실수해도 괜찮아요.",          rom:"silsuhae​do gwaenchanhayo",  ja:"ミスしても大丈夫ですよ。",  cat:"③ 따뜻한 말"},
+  {id:105, en:"Take a deep breath.",        kr:"깊게 숨을 쉬어봐요.",         rom:"gipge sumeul swieo bwayo",  ja:"深呼吸してみて。", cat:"③ 따뜻한 말"},
+  {id:106, en:"No rush.",                   kr:"서두르지 않아도 돼요.",        rom:"seodureuji anado dwaeyo",  ja:"急がなくていいですよ。",  cat:"③ 따뜻한 말"},
+  {id:107, en:"One step at a time.",        kr:"한 걸음씩이면 돼요.",         rom:"han georeumssigiamyeon dwaeyo",  ja:"一歩ずつでいいです。",cat:"③ 따뜻한 말"},
+  {id:108, en:"We can figure it out.",      kr:"같이 생각해봐요.",            rom:"gachi saenggakhaebwayo",  ja:"一緒に考えましょう。",   cat:"③ 따뜻한 말"},
+  {id:109, en:"We'll manage.",              kr:"어떻게든 될 거예요.",          rom:"eotteokeden doel geoyeyo",  ja:"なんとかなりますよ。", cat:"③ 따뜻한 말"},
+  {id:110, en:"There's always a way.",      kr:"반드시 길이 있어요.",          rom:"bandeusi giri isseoyo",  ja:"必ず道はありますよ。",    cat:"③ 따뜻한 말"},
+  {id:111, en:"I'm happy for you.",         kr:"잘 됐네요.",               rom:"jal dwaenneyo",  ja:"よかったですね。",            cat:"③ 따뜻한 말"},
+  {id:112, en:"That's wonderful.",          kr:"정말 훌륭해요!",             rom:"jeongmal hullyunghaeyo",  ja:"それは素晴らしい！",   cat:"③ 따뜻한 말"},
+  {id:113, en:"Great job.",                 kr:"잘 했어요!",               rom:"jal haesseoyo",  ja:"よくできました！",            cat:"③ 따뜻한 말"},
+  {id:114, en:"Well done.",                 kr:"잘 하셨어요.",              rom:"jal hasyeosseoyo",  ja:"よくやりましたね。",         cat:"③ 따뜻한 말"},
+  {id:115, en:"Fantastic.",                 kr:"최고예요!",                rom:"choegoyeyo",  ja:"最高ですね！",               cat:"③ 따뜻한 말"},
+  {id:116, en:"That's amazing.",            kr:"정말 대단해요!",             rom:"jeongmal daedanhaeyo",  ja:"それは驚きです！",     cat:"③ 따뜻한 말"},
+  {id:117, en:"You did great.",             kr:"정말 잘 하셨어요.",           rom:"jeongmal jal hasyeosseoyo",  ja:"とてもよくできました。",cat:"③ 따뜻한 말"},
+  {id:118, en:"I'm glad to hear that.",     kr:"그 말 들으니 좋네요.",         rom:"geu mal deureni jonneyo",  ja:"それを聞いてよかったです。",  cat:"③ 따뜻한 말"},
+  {id:119, en:"That's good news.",          kr:"좋은 소식이네요.",            rom:"joeun sosigineyo",  ja:"それはよかったですね。",         cat:"③ 따뜻한 말"},
+  {id:120, en:"You deserve it.",            kr:"당신에게 딱 맞아요.",          rom:"dangsinege ttak majayo",  ja:"あなたにはそれがふさわしいです。",   cat:"③ 따뜻한 말"},
+  {id:121, en:"I'm grateful for you.",      kr:"당신에게 감사해요.",           rom:"dangsinege gamsahaeyo",  ja:"あなたに感謝しています。",    cat:"③ 따뜻한 말"},
+  {id:122, en:"Thanks for your help.",      kr:"도와줘서 고마워요.",           rom:"dowajwoseo gomawoyo",  ja:"助けてくれてありがとう。",      cat:"③ 따뜻한 말"},
+  {id:123, en:"I appreciate it.",           kr:"감사해요.",                 rom:"gamsahaeyo",  ja:"感謝しています。",               cat:"③ 따뜻한 말"},
+  {id:124, en:"That means a lot.",          kr:"정말 기뻐요.",               rom:"jeongmal gippeoyo",  ja:"とても嬉しいです。",        cat:"③ 따뜻한 말"},
+  {id:125, en:"I'm thankful.",              kr:"감사한 마음이에요.",           rom:"gamsahan maeumieyo",  ja:"ありがたいです。",       cat:"③ 따뜻한 말"},
+  {id:126, en:"You helped a lot.",          kr:"많이 도움이 됐어요.",          rom:"manhi doumi dwaesseoyo",  ja:"とても助かりました。",   cat:"③ 따뜻한 말"},
+  {id:127, en:"I'm lucky to know you.",     kr:"당신을 알게 돼서 좋아요.",     rom:"dangsineul gage dwaeseo joayo",  ja:"あなたと知り合えてよかったです。",cat:"③ 따뜻한 말"},
+  {id:128, en:"I'm glad we met.",           kr:"만나서 정말 좋아요.",          rom:"mannaseo jeongmal joayo",  ja:"お会いできてよかったです。",  cat:"③ 따뜻한 말"},
+  {id:129, en:"It's good to have you here.",kr:"여기 있어줘서 고마워요.",      rom:"yeogi isseojwoseo gomawoyo",  ja:"ここにいてくれてよかったです。",cat:"③ 따뜻한 말"},
+  {id:130, en:"You made my day.",           kr:"당신 덕분에 좋은 하루예요.",   rom:"dangsin deokbune joeun haruye​yo",  ja:"あなたのおかげで素敵な一日です。",cat:"③ 따뜻한 말"},
+
+  // ④ ユーモア（131〜180）
+  {id:131, en:"That was unexpected.",       kr:"예상치 못했어요.",            rom:"yesangchi mothaeasseoyo",  ja:"それは予想外でした。",  cat:"④ 유머"},
+  {id:132, en:"I didn't see that coming.",  kr:"전혀 몰랐어요.",             rom:"jeonhyeo mollaasseoyo",  ja:"思ってもいませんでした。",    cat:"④ 유머"},
+  {id:133, en:"That's funny.",              kr:"재미있어요!",               rom:"jaemiisseoyo",  ja:"面白いですね！",             cat:"④ 유머"},
+  {id:134, en:"That made me laugh.",        kr:"웃음이 나왔어요.",            rom:"useumi nawasseoyo",  ja:"思わず笑ってしまいました。",        cat:"④ 유머"},
+  {id:135, en:"Good one.",                  kr:"잘 하셨어요!",              rom:"jal hasyeosseoyo",  ja:"うまい！",         cat:"④ 유머"},
+  {id:136, en:"You're funny.",              kr:"재미있는 분이네요.",           rom:"jaemiinneun buniney​o",  ja:"あなたって面白いですね。",     cat:"④ 유머"},
+  {id:137, en:"That's clever.",             kr:"영리하네요.",               rom:"yeongnirihaneyo",  ja:"それは賢いですね。",          cat:"④ 유머"},
+  {id:138, en:"I like that joke.",          kr:"그 농담 좋아요.",             rom:"geu nongdam joayo",  ja:"そのジョーク好きです。",        cat:"④ 유머"},
+  {id:139, en:"That was a good one.",       kr:"그거 좋았어요!",             rom:"geugeo joasseoyo",  ja:"それはよかった！",         cat:"④ 유머"},
+  {id:140, en:"That's hilarious.",          kr:"너무 웃겨요!",               rom:"neomu utgyeoyo",  ja:"それは爆笑ですね！",           cat:"④ 유머"},
+  {id:141, en:"You're kidding.",            kr:"농담이죠?",                 rom:"nongdamijyo",  ja:"冗談でしょう？",              cat:"④ 유머"},
+  {id:142, en:"Are you joking?",            kr:"농담이에요?",               rom:"nongdamieyo",  ja:"冗談ですか？",              cat:"④ 유머"},
+  {id:143, en:"That's unbelievable.",       kr:"믿을 수 없어요!",            rom:"mideul su eopseoyo",  ja:"信じられません！",       cat:"④ 유머"},
+  {id:144, en:"That's crazy.",              kr:"대단해요!",                 rom:"daedanhaeyo",  ja:"それはすごい！",              cat:"④ 유머"},
+  {id:145, en:"That's wild.",               kr:"엄청나네요!",               rom:"eomcheongnaneyo",  ja:"それはワイルドですね！",          cat:"④ 유머"},
+  {id:146, en:"That escalated quickly.",    kr:"빠르게 전개됐네요.",           rom:"ppareuge jeongaedwaenneyo",  ja:"急展開でしたね。",cat:"④ 유머"},
+  {id:147, en:"That's interesting.",        kr:"흥미롭네요.",               rom:"heungmiropneyo",  ja:"それは興味深いです。",           cat:"④ 유머"},
+  {id:148, en:"That's new.",                kr:"새롭네요.",                 rom:"saeropneyo",  ja:"それは新しいですね。",               cat:"④ 유머"},
+  {id:149, en:"That's unusual.",            kr:"드문 일이네요.",             rom:"deumun irineyo",  ja:"それは珍しいですね。",           cat:"④ 유머"},
+  {id:150, en:"I like your style.",         kr:"스타일 마음에 들어요.",        rom:"seutail maeume deureoyo",  ja:"あなたのセンス、好きです。",  cat:"④ 유머"},
+  {id:151, en:"That's bold.",               kr:"대담하네요.",               rom:"daedamhaneyo",  ja:"それは大胆ですね。",             cat:"④ 유머"},
+  {id:152, en:"That's brave.",              kr:"용감하네요.",               rom:"yonggamhaneyo",  ja:"それは勇気がいりますね。",            cat:"④ 유머"},
+  {id:153, en:"I admire that.",             kr:"대단하다고 생각해요.",         rom:"daedanhadago saenggakaeyo",  ja:"それは感心します。",cat:"④ 유머"},
+  {id:154, en:"That's creative.",           kr:"창의적이네요.",              rom:"chang-uijeogineyo",  ja:"それはクリエイティブですね。",        cat:"④ 유머"},
+  {id:155, en:"That's smart.",              kr:"영리해요!",                 rom:"yeongnirihaeyo",  ja:"それは賢い！",           cat:"④ 유머"},
+  {id:156, en:"Nice thinking.",             kr:"좋은 발상이에요.",            rom:"joeun balsangieyo",  ja:"いい発想ですね。",        cat:"④ 유머"},
+  {id:157, en:"That's impressive.",         kr:"인상적이에요.",              rom:"insangjeogieyo",  ja:"それは印象的です。",           cat:"④ 유머"},
+  {id:158, en:"I like that idea.",          kr:"그 아이디어 좋아요.",          rom:"geu aidieeo joayo",  ja:"そのアイデア好きです。",        cat:"④ 유머"},
+  {id:159, en:"That's clever thinking.",    kr:"영리한 생각이에요.",           rom:"yeongni​han saenggagieyo",  ja:"賢い考え方ですね。",  cat:"④ 유머"},
+  {id:160, en:"Good point.",                kr:"좋은 지적이에요.",            rom:"joeun jijeogieyo",  ja:"いい指摘ですね。",         cat:"④ 유머"},
+  {id:161, en:"That makes sense.",          kr:"이치에 맞네요.",             rom:"ichie manneyo",  ja:"それは筋が通っていますね。",            cat:"④ 유머"},
+  {id:162, en:"Now we're talking.",         kr:"이제 이야기가 통하네요!",       rom:"ije iyagiga tonghaneyo",  ja:"それそれ！その話ですよ！",   cat:"④ 유머"},
+  {id:163, en:"That works for me.",         kr:"저는 괜찮아요.",             rom:"jeoneun gwaenchanhayo",  ja:"それで問題ありません。",    cat:"④ 유머"},
+  {id:164, en:"I'm in.",                    kr:"저도 참여할게요!",            rom:"jeodo chamyeohalgeyo",  ja:"参加します！",     cat:"④ 유머"},
+  {id:165, en:"Count me in.",               kr:"저도 넣어주세요.",            rom:"jeodo neoheojuseyo",  ja:"私も入れてください。",       cat:"④ 유머"},
+  {id:166, en:"Why not?",                   kr:"해보죠!",                  rom:"haebojyo",  ja:"やってみましょう！",                 cat:"④ 유머"},
+  {id:167, en:"Let's try it.",              kr:"해봐요.",                  rom:"haebwayo",  ja:"試してみましょう。",                 cat:"④ 유머"},
+  {id:168, en:"Let's see what happens.",    kr:"어떻게 되는지 봐요.",          rom:"eotteoke doeneunjji bwayo",  ja:"どうなるか見てみましょう。",cat:"④ 유머"},
+  {id:169, en:"This should be fun.",        kr:"재미있을 것 같아요.",          rom:"jaemiisseul geot gatayo",  ja:"これは楽しそうですね。",  cat:"④ 유머"},
+  {id:170, en:"I'm curious now.",           kr:"궁금해졌어요.",              rom:"gunggeumhaejyeosseoyo",  ja:"気になってきました。",    cat:"④ 유머"},
+  {id:171, en:"That should work.",          kr:"잘 될 거예요.",              rom:"jal doel geoyeyo",  ja:"うまくいくはずです。",         cat:"④ 유머"},
+  {id:172, en:"That's worth a try.",        kr:"해볼 가치가 있어요.",          rom:"haebol gachiga isseoyo",  ja:"試してみる価値がありますね。",   cat:"④ 유머"},
+  {id:173, en:"Let's find out.",            kr:"확인해봐요.",               rom:"hwaginhae bwayo",  ja:"確かめてみましょう。",          cat:"④ 유머"},
+  {id:174, en:"I'm interested.",            kr:"관심 있어요.",              rom:"gwansim isseoyo",  ja:"興味があります。",          cat:"④ 유머"},
+  {id:175, en:"That's exciting.",           kr:"설레네요!",                rom:"seolleneyo",  ja:"それはわくわくしますね！",               cat:"④ 유머"},
+  {id:176, en:"This is getting good.",      kr:"재미있어지고 있어요.",         rom:"jaemiisseojigo isseoyo",  ja:"面白くなってきましたね。",   cat:"④ 유머"},
+  {id:177, en:"Now that's interesting.",    kr:"그거 재미있네요!",             rom:"geugeo jaemiinneyo",  ja:"それは面白い！",       cat:"④ 유머"},
+  {id:178, en:"That's something.",          kr:"대단하네요.",               rom:"daedanhaneyo",  ja:"それはすごいですね。",             cat:"④ 유머"},
+  {id:179, en:"That's different.",          kr:"독특하네요.",               rom:"dokteukghaneyo",  ja:"それはユニークですね。",           cat:"④ 유머"},
+  {id:180, en:"That's cool.",               kr:"멋있어요!",                rom:"meossisseoyo",  ja:"それはいいですね！",             cat:"④ 유머"},
+
+  // ⑤ 生活英語（181〜240）
+  {id:181, en:"I'm hungry.",                kr:"배고파요.",                rom:"baegopayo",  ja:"お腹がすきました。",                cat:"⑤ 생활표현"},
+  {id:182, en:"Let's eat.",                 kr:"먹어요!",                 rom:"meogeoyo",  ja:"食べましょう。",                 cat:"⑤ 생활표현"},
+  {id:183, en:"This is delicious.",         kr:"이거 맛있어요.",            rom:"igeo massisseoyo",  ja:"これは美味しいですね。",         cat:"⑤ 생활표현"},
+  {id:184, en:"I'm full.",                  kr:"배불러요.",                rom:"baebulleoyo",  ja:"お腹いっぱいです。",              cat:"⑤ 생활표현"},
+  {id:185, en:"Want some coffee?",          kr:"커피 드실래요?",            rom:"keopi deusillaeyo",  ja:"コーヒーはいかがですか？",        cat:"⑤ 생활표현"},
+  {id:186, en:"I'll take it.",              kr:"그걸로 할게요.",             rom:"geugeolro halgeyo",  ja:"それをいただきます。",        cat:"⑤ 생활표현"},
+  {id:187, en:"That looks good.",           kr:"맛있어 보여요.",            rom:"masisseo boyeoyo",  ja:"それは美味しそうですね。",         cat:"⑤ 생활표현"},
+  {id:188, en:"I'll try it.",               kr:"먹어볼게요.",              rom:"meogeobolgeyo",  ja:"試してみます。",            cat:"⑤ 생활표현"},
+  {id:189, en:"I'll have that.",            kr:"그걸로 할게요.",             rom:"geugeolro halgeyo",  ja:"それにします。",        cat:"⑤ 생활표현"},
+  {id:190, en:"Sounds tasty.",              kr:"맛있겠네요.",              rom:"masissgenneyo",  ja:"美味しそうですね。",            cat:"⑤ 생활표현"},
+  {id:191, en:"What time is it?",           kr:"몇 시예요?",               rom:"myeot siyeyo",  ja:"何時ですか？",             cat:"⑤ 생활표현"},
+  {id:192, en:"It's late.",                 kr:"늦었네요.",                rom:"neujeonne​yo",  ja:"遅くなりましたね。",              cat:"⑤ 생활표현"},
+  {id:193, en:"It's early.",                kr:"아직 일러요.",              rom:"ajik illeoyo",  ja:"まだ早いですね。",             cat:"⑤ 생활표현"},
+  {id:194, en:"I'm tired.",                 kr:"피곤해요.",                rom:"pigonhaeyo",  ja:"疲れました。",               cat:"⑤ 생활표현"},
+  {id:195, en:"I need a break.",            kr:"좀 쉬어야 해요.",           rom:"jom swieoyo haeyo",  ja:"休憩が必要です。",        cat:"⑤ 생활표현"},
+  {id:196, en:"Let's rest.",                kr:"쉬어요.",                  rom:"swieoyo",  ja:"休みましょう。",                  cat:"⑤ 생활표현"},
+  {id:197, en:"I need some sleep.",         kr:"좀 자야 해요.",             rom:"jom jaya haeyo",  ja:"少し眠る必要があります。",           cat:"⑤ 생활표현"},
+  {id:198, en:"I'll call you later.",       kr:"나중에 전화할게요.",          rom:"najunge jeonhwahalgeyo",  ja:"後で電話しますね。",   cat:"⑤ 생활표현"},
+  {id:199, en:"See you later.",             kr:"나중에 봐요.",              rom:"najunge bwayo",  ja:"また後で。",            cat:"⑤ 생활표현"},
+  {id:200, en:"Take care.",                 kr:"몸 조심해요.",              rom:"mom josimhaeyo",  ja:"お大事に。",           cat:"⑤ 생활표현"},
+  {id:201, en:"Drive safely.",              kr:"안전하게 운전하세요.",        rom:"anjeonhage unjeonhaseyo",  ja:"気をつけて運転してください。",  cat:"⑤ 생활표현"},
+  {id:202, en:"Have a good day.",           kr:"좋은 하루 보내세요.",         rom:"joeun haru bonaeseyo",  ja:"よい一日を。",     cat:"⑤ 생활표현"},
+  {id:203, en:"Have a great evening.",      kr:"좋은 저녁 보내세요.",         rom:"joeun jeonyeok bonaeseyo",  ja:"よい夜を。", cat:"⑤ 생활표현"},
+  {id:204, en:"See you tomorrow.",          kr:"내일 봐요.",               rom:"naeil bwayo",  ja:"また明日。",              cat:"⑤ 생활표현"},
+  {id:205, en:"Talk to you soon.",          kr:"곧 또 이야기해요.",           rom:"got tto iyagihaeyo",  ja:"またお話ししましょう。",       cat:"⑤ 생활표현"},
+  {id:206, en:"Good night.",                kr:"잘 자요.",                 rom:"jal jayo",  ja:"おやすみなさい。",                 cat:"⑤ 생활표현"},
+  {id:207, en:"Sweet dreams.",              kr:"좋은 꿈 꿔요.",             rom:"joeun kkum kkwoyo",  ja:"よい夢を。",        cat:"⑤ 생활표현"},
+  {id:208, en:"Take care of yourself.",     kr:"스스로를 잘 돌봐요.",         rom:"seuseureul jal dolbwayo",  ja:"自分を大切にしてくださいね。",  cat:"⑤ 생활표현"},
+  {id:209, en:"Stay safe.",                 kr:"안전하게 있어요.",            rom:"anjeonhage isseoyo",  ja:"安全でいてくださいね。",       cat:"⑤ 생활표현"},
+  {id:210, en:"Keep smiling.",              kr:"늘 웃으세요.",              rom:"neul ususeyo",  ja:"笑顔でいてくださいね。",             cat:"⑤ 생활표현"},
+  {id:211, en:"That sounds great.",         kr:"정말 좋겠네요.",             rom:"jeongmal jokkenne​yo",  ja:"それは素晴らしいですね。",      cat:"⑤ 생활표현"},
+  {id:212, en:"That's a good idea.",        kr:"좋은 생각이에요.",            rom:"joeun saenggagieyo",  ja:"それはいいアイデアです。",       cat:"⑤ 생활표현"},
+  {id:213, en:"I like that plan.",          kr:"그 계획 마음에 들어요.",       rom:"geu gyehoek maeume deureoyo",  ja:"その計画が好きです。",cat:"⑤ 생활표현"},
+  {id:214, en:"Let's do it.",               kr:"해요!",                   rom:"haeyo",  ja:"やりましょう。",                    cat:"⑤ 생활표현"},
+  {id:215, en:"Let's go now.",              kr:"자, 이제 가요!",             rom:"ja, ije gayo",  ja:"さあ、行きましょう。",             cat:"⑤ 생활표현"},
+  {id:216, en:"I'll come with you.",        kr:"같이 갈게요.",              rom:"gachi galgeyo",  ja:"一緒に行きます。",            cat:"⑤ 생활표현"},
+  {id:217, en:"I'll join you.",             kr:"합류할게요.",               rom:"hapnyuhalgeyo",  ja:"一緒にします。",            cat:"⑤ 생활표현"},
+  {id:218, en:"That works for me.",         kr:"저는 괜찮아요.",             rom:"jeoneun gwaenchanhayo",  ja:"それで大丈夫です。",    cat:"⑤ 생활표현"},
+  {id:219, en:"Let's make it happen.",      kr:"실현시켜요.",               rom:"silhyeonsikkyeoyo",  ja:"実現させましょう。",        cat:"⑤ 생활표현"},
+  {id:220, en:"Let's get started.",         kr:"시작해요.",                rom:"sijakaeyo",  ja:"始めましょう。",                cat:"⑤ 생활표현"},
+  {id:221, en:"I'm ready.",                 kr:"준비됐어요.",               rom:"junbidwaesseoyo",  ja:"準備できました。",          cat:"⑤ 생활표현"},
+  {id:222, en:"Let's begin.",               kr:"시작해요.",                rom:"sijakaeyo",  ja:"始めましょう。",                cat:"⑤ 생활표현"},
+  {id:223, en:"Here we go.",                kr:"자, 시작이에요!",            rom:"ja, sijakieyo",  ja:"さあ、行くよ！",            cat:"⑤ 생활표현"},
+  {id:224, en:"That's the way.",            kr:"바로 그거예요.",             rom:"baro geugeoyeyo",  ja:"その調子です。",          cat:"⑤ 생활표현"},
+  {id:225, en:"Good thinking.",             kr:"좋은 생각이에요.",            rom:"joeun saenggagieyo",  ja:"いい考えですね。",       cat:"⑤ 생활표현"},
+  {id:226, en:"That's perfect.",            kr:"완벽해요!",                rom:"wanbyeokhaeyo",  ja:"それは完璧です。",            cat:"⑤ 생활표현"},
+  {id:227, en:"That should work.",          kr:"잘 될 거예요.",              rom:"jal doel geoyeyo",  ja:"それでうまくいくはずです。",         cat:"⑤ 생활표현"},
+  {id:228, en:"We're getting there.",       kr:"거의 다 왔어요.",            rom:"geoui da wasseoyo",  ja:"もうすぐですよ。",        cat:"⑤ 생활표현"},
+  {id:229, en:"Almost done.",               kr:"거의 다 됐어요.",            rom:"geoui da dwaesseoyo",  ja:"もうすぐ終わりますよ。",      cat:"⑤ 생활표현"},
+  {id:230, en:"Just a little more.",        kr:"조금만 더요.",              rom:"jogeumman deoyo",  ja:"もう少しだけです。",          cat:"⑤ 생활표현"},
+  {id:231, en:"That's it.",                 kr:"그거예요!",                rom:"geugeoyeyo",  ja:"それです！",               cat:"⑤ 생활표현"},
+  {id:232, en:"We did it.",                 kr:"해냈어요!",                rom:"haenaesseoyo",  ja:"できました！",             cat:"⑤ 생활표현"},
+  {id:233, en:"Good job.",                  kr:"잘 했어요!",               rom:"jal haesseoyo",  ja:"よくできました！",            cat:"⑤ 생활표현"},
+  {id:234, en:"That worked out well.",      kr:"잘 됐네요.",               rom:"jal dwaenneyo",  ja:"うまくいきましたね。",            cat:"⑤ 생활표현"},
+  {id:235, en:"That went well.",            kr:"잘 됐어요.",               rom:"jal dwaesseoyo",  ja:"うまくいきました。",           cat:"⑤ 생활표현"},
+  {id:236, en:"I'm glad we did it.",        kr:"해서 좋았어요.",             rom:"haeseo joasseoyo",  ja:"やってよかったですね。",         cat:"⑤ 생활표현"},
+  {id:237, en:"That was fun.",              kr:"재미있었어요.",              rom:"jaemiisseosseoyo",  ja:"楽しかったですね。",         cat:"⑤ 생활표현"},
+  {id:238, en:"Let's do it again.",         kr:"또 같이 해요.",              rom:"tto gachi haeyo",  ja:"また一緒にやりましょう。",          cat:"⑤ 생활표현"},
+  {id:239, en:"That was worth it.",         kr:"할 만한 가치가 있었어요.",     rom:"hal manhan gachiga isseosseoyo",  ja:"やる価値がありましたね。",cat:"⑤ 생활표현"},
+  {id:240, en:"I'm happy about that.",      kr:"그게 기뻐요.",              rom:"geuge gippeoyo",  ja:"それがうれしいです。",           cat:"⑤ 생활표현"},
+
+  // ⑥ 会話終了（241〜300）
+  {id:241, en:"I have to go.",              kr:"가야 해요.",               rom:"gaya haeyo",  ja:"行かなければなりません。",               cat:"⑥ 마무리"},
+  {id:242, en:"Talk later.",                kr:"나중에 얘기해요.",            rom:"najunge yaegihaeyo",  ja:"また話しましょう。",       cat:"⑥ 마무리"},
+  {id:243, en:"See you soon.",              kr:"곧 만나요.",               rom:"got mannayo",  ja:"またすぐに会いましょう。",              cat:"⑥ 마무리"},
+  {id:244, en:"See you around.",            kr:"또 만나요.",               rom:"tto mannayo",  ja:"またどこかで会いましょう。",              cat:"⑥ 마무리"},
+  {id:245, en:"Catch you later.",           kr:"또 봐요.",                 rom:"tto bwayo",  ja:"また後で。",                cat:"⑥ 마무리"},
+  {id:246, en:"Bye for now.",               kr:"그럼 또 봐요.",              rom:"geureom tto bwayo",  ja:"ではまた。",        cat:"⑥ 마무리"},
+  {id:247, en:"Take it easy.",              kr:"편하게 지내요.",             rom:"pyeonhage jinaeyo",  ja:"気楽にね。",        cat:"⑥ 마무리"},
+  {id:248, en:"Have a nice day.",           kr:"좋은 하루 보내세요.",         rom:"joeun haru bonaeseyo",  ja:"よい一日を。",     cat:"⑥ 마무리"},
+  {id:249, en:"Have a great day.",          kr:"멋진 하루 보내세요.",         rom:"meotjin haru bonaeseyo",  ja:"素敵な一日を。",   cat:"⑥ 마무리"},
+  {id:250, en:"Goodbye.",                   kr:"안녕히 계세요.",             rom:"annyeonghi gyeseyo",  ja:"さようなら。",       cat:"⑥ 마무리"},
+  {id:251, en:"Thanks again.",              kr:"다시 한번 감사해요.",          rom:"dasi hanbeon gamsahaeyo",  ja:"改めてありがとう。",  cat:"⑥ 마무리"},
+  {id:252, en:"I appreciate it.",           kr:"감사합니다.",               rom:"gamsahamnida",  ja:"ありがとうございます。",             cat:"⑥ 마무리"},
+  {id:253, en:"That helped a lot.",         kr:"많이 도움이 됐어요.",          rom:"manhi doumi dwaesseoyo",  ja:"とても助かりました。",   cat:"⑥ 마무리"},
+  {id:254, en:"Thanks for everything.",     kr:"여러모로 고마워요.",           rom:"yeoreumo​ro gomawoyo",  ja:"いろいろありがとう。",      cat:"⑥ 마무리"},
+  {id:255, en:"I owe you one.",             kr:"신세 하나 졌어요.",           rom:"sinse hana jyeosseoyo",  ja:"一つ借りができましたね。",    cat:"⑥ 마무리"},
+  {id:256, en:"You're the best.",           kr:"최고예요.",                 rom:"choegoyeyo",  ja:"あなたは最高です。",               cat:"⑥ 마무리"},
+  {id:257, en:"I really appreciate it.",    kr:"진심으로 감사해요.",           rom:"jinsimeuro gamsahaeyo",  ja:"本当に感謝しています。",    cat:"⑥ 마무리"},
+  {id:258, en:"I'm grateful.",              kr:"감사해요.",                 rom:"gamsahaeyo",  ja:"感謝しています。",               cat:"⑥ 마무리"},
+  {id:259, en:"That means a lot.",          kr:"정말 기뻐요.",               rom:"jeongmal gippeoyo",  ja:"とても嬉しいです。",        cat:"⑥ 마무리"},
+  {id:260, en:"Thank you so much.",         kr:"정말 감사합니다.",            rom:"jeongmal gamsahamnida",  ja:"本当にありがとうございます。",    cat:"⑥ 마무리"},
+  {id:261, en:"No problem.",                kr:"천만에요.",                 rom:"cheonmaneyo",  ja:"問題ありません。",              cat:"⑥ 마무리"},
+  {id:262, en:"Anytime.",                   kr:"언제든지요.",               rom:"eonjedeunji​yo",  ja:"いつでも。",            cat:"⑥ 마무리"},
+  {id:263, en:"You're welcome.",            kr:"천만에요.",                 rom:"cheonmaneyo",  ja:"どういたしまして。",              cat:"⑥ 마무리"},
+  {id:264, en:"Glad to help.",              kr:"도움이 돼서 기뻐요.",          rom:"doumi dwaeseo gippeoyo",  ja:"お役に立てて嬉しいです。",   cat:"⑥ 마무리"},
+  {id:265, en:"My pleasure.",               kr:"저야말로요.",               rom:"jeoyamallloyo",  ja:"こちらこそ。",            cat:"⑥ 마무리"},
+  {id:266, en:"Don't mention it.",          kr:"별말씀을요.",               rom:"byeolmalsseumeullyo",  ja:"お気になさらず。",      cat:"⑥ 마무리"},
+  {id:267, en:"Happy to help.",             kr:"기꺼이 도와드려요.",           rom:"gikkeoi dowadeuryeoyo",  ja:"喜んでお手伝いします。",    cat:"⑥ 마무리"},
+  {id:268, en:"That's what friends are for.",kr:"친구니까요.",              rom:"chingunikayo",  ja:"友達ですもの。",             cat:"⑥ 마무리"},
+  {id:269, en:"I'm always here.",           kr:"언제든지 여기 있어요.",        rom:"eonjedeunji yeogi isseoyo",  ja:"いつでもここにいますよ。",cat:"⑥ 마무리"},
+  {id:270, en:"You can count on me.",       kr:"저를 믿으세요.",             rom:"jeoreul mideuseoyo",  ja:"頼りにしていいですよ。",       cat:"⑥ 마무리"},
+  {id:271, en:"Stay positive.",             kr:"긍정적으로 있어요.",           rom:"geungjeongjeogeureo isseoyo",  ja:"ポジティブでいてね。",cat:"⑥ 마무리"},
+  {id:272, en:"Keep smiling.",              kr:"늘 웃으세요.",              rom:"neul ususeyo",  ja:"笑顔でいてね。",             cat:"⑥ 마무리"},
+  {id:273, en:"Keep going.",                kr:"계속 해요.",               rom:"gyesok haeyo",  ja:"続けてください。",             cat:"⑥ 마무리"},
+  {id:274, en:"Don't give up.",             kr:"포기하지 마세요.",           rom:"pogihaji maseyo",  ja:"あきらめないで。",          cat:"⑥ 마무리"},
+  {id:275, en:"Take care of yourself.",     kr:"스스로를 잘 돌봐요.",         rom:"seuseureul jal dolbwayo",  ja:"自分を大切にしてね。",  cat:"⑥ 마무리"},
+  {id:276, en:"Be safe.",                   kr:"안전하게 있어요.",            rom:"anjeonhage isseoyo",  ja:"安全でいてね。",       cat:"⑥ 마무리"},
+  {id:277, en:"Stay strong.",               kr:"강하게 있어요.",             rom:"gangghage isseoyo",  ja:"強くいてください。",        cat:"⑥ 마무리"},
+  {id:278, en:"Believe in yourself.",       kr:"자신을 믿으세요.",            rom:"jasineul mideuseoyo",  ja:"自分を信じてください。",      cat:"⑥ 마무리"},
+  {id:279, en:"Good luck.",                 kr:"행운을 빌어요.",             rom:"haenguneul bireoyo",  ja:"頑張ってください。",       cat:"⑥ 마무리"},
+  {id:280, en:"All the best.",              kr:"모든 일이 잘 되길 바라요.",    rom:"modeun iri jal doegil barayo",  ja:"すべてがうまくいきますように。",cat:"⑥ 마무리"},
+  {id:281, en:"I'm rooting for you.",       kr:"응원하고 있어요.",            rom:"eungwonhago isseoyo",  ja:"応援していますよ。",      cat:"⑥ 마무리"},
+  {id:282, en:"You can do it.",             kr:"할 수 있어요.",              rom:"hal su isseoyo",  ja:"あなたならできます。",           cat:"⑥ 마무리"},
+  {id:283, en:"I believe in you.",          kr:"당신을 믿어요.",             rom:"dangsineul mideoyo",  ja:"あなたを信じています。",        cat:"⑥ 마무리"},
+  {id:284, en:"You're amazing.",            kr:"대단해요.",                 rom:"daedanhaeyo",  ja:"あなたは素晴らしいです。",              cat:"⑥ 마무리"},
+  {id:285, en:"You're doing great.",        kr:"잘 하고 있어요.",            rom:"jal hago isseoyo",  ja:"よくやっていますよ。",         cat:"⑥ 마무리"},
+  {id:286, en:"Keep it up.",                kr:"그 조자를 계속 유지해요.",      rom:"geu jojareul gyesok yujihaeyo",  ja:"その調子で続けてください。",cat:"⑥ 마무리"},
+  {id:287, en:"You're getting better.",     kr:"점점 잘 하고 있어요.",         rom:"jeomjeom jal hago isseoyo",  ja:"どんどん上手になっていますよ。",cat:"⑥ 마무리"},
+  {id:288, en:"I'm proud of you.",          kr:"자랑스러워요.",              rom:"jarangseureowoyo",  ja:"誇りに思います。",         cat:"⑥ 마무리"},
+  {id:289, en:"That's wonderful.",          kr:"정말 훌륭해요!",             rom:"jeongmal hullyunghaeyo",  ja:"それは素晴らしい！",   cat:"⑥ 마무리"},
+  {id:290, en:"Fantastic.",                 kr:"최고예요!",                rom:"choegoyeyo",  ja:"最高ですね！",               cat:"⑥ 마무리"},
+  {id:291, en:"That was great.",            kr:"좋았어요.",                rom:"joasseoyo",  ja:"よかったですね。",                cat:"⑥ 마무리"},
+  {id:292, en:"That was fun.",              kr:"재미있었어요.",              rom:"jaemiisseosseoyo",  ja:"楽しかったです。",         cat:"⑥ 마무리"},
+  {id:293, en:"Let's meet again.",          kr:"또 만나요.",               rom:"tto mannayo",  ja:"また会いましょう。",              cat:"⑥ 마무리"},
+  {id:294, en:"Let's talk again.",          kr:"또 얘기해요.",              rom:"tto yaegihaeyo",  ja:"またお話しましょう。",           cat:"⑥ 마무리"},
+  {id:295, en:"See you next time.",         kr:"다음에 또 만나요.",            rom:"daeume tto mannayo",  ja:"次回またお会いしましょう。",       cat:"⑥ 마무리"},
+  {id:296, en:"I'll miss this.",            kr:"그리울 것 같아요.",           rom:"griul geot gatayo",  ja:"これが恋しくなりそうです。",        cat:"⑥ 마무리"},
+  {id:297, en:"Take care until then.",      kr:"그때까지 몸 조심해요.",        rom:"geuddaekkaji mom josimhaeyo",  ja:"それまでお体に気をつけて。",cat:"⑥ 마무리"},
+  {id:298, en:"Stay well.",                 kr:"건강하게 지내세요.",           rom:"geonganghage jinaeseyo",  ja:"元気でいてくださいね。",   cat:"⑥ 마무리"},
+  {id:299, en:"Keep in touch.",             kr:"계속 연락해요.",             rom:"gyesok yeollakhaeyo",  ja:"連絡を取り合いましょう。",      cat:"⑥ 마무리"},
+  {id:300, en:"Until next time.",           kr:"다음에 또 봐요.",             rom:"daeume tto bwayo",  ja:"次回まで。",         cat:"⑥ 마무리"},
+];
+
+const DOG_EMOJIS = ["🐶","🐕","🦮","🐩","🐾","🐕‍🦺"];
+
+// ============================================================
+// STATE
+// ============================================================
+let currentDay = 1;
+let currentIndex = 0;
+let isPlaying = false;
+let isFinished = false;
+let isReviewing = false;
+let isReviewFinished = false;
+let reviewPhrases = [];
+let reviewIndex = 0;
+let stepTimers = [];
+let step = 'idle';
+
+// ============================================================
+// STORAGE
+// ============================================================
+function loadDay() {
+  const saved = parseInt(localStorage.getItem('wanko_kr_day') || '0');
+  if (saved > 0 && saved <= 60) currentDay = saved;
+  const lastDate = localStorage.getItem('wanko_kr_lastDate') || '';
+  const today = new Date().toDateString();
+  if (lastDate !== today) {
+    localStorage.setItem('wanko_kr_lastDate', today);
+    if (saved > 0) {
+      currentDay = Math.min(saved + 1, 60);
+      localStorage.setItem('wanko_kr_day', String(currentDay));
+    } else {
+      localStorage.setItem('wanko_kr_day', '1');
+    }
+  }
+}
+function saveDay(d) { localStorage.setItem('wanko_kr_day', String(d)); }
+
+// ============================================================
+// DERIVED
+// ============================================================
+function todayPhrases() {
+  const start = (currentDay - 1) * 5;
+  return ALL_PHRASES.slice(start, start + 5);
+}
+function currentPhrase() {
+  const p = todayPhrases();
+  return p[Math.min(currentIndex, p.length - 1)] || {id:0, en:'', kr:'', rom:'', ja:'', cat:''};
+}
+function dogEmoji() { return DOG_EMOJIS[currentDay % DOG_EMOJIS.length]; }
+
+// ============================================================
+// SPEECH（韓国語 → 日本語）女性の声を優先選択
+// ============================================================
+
+// 女性声キャッシュ
+const femaleVoiceCache = {};
+
+// 指定言語の女性声を探して返す
+function getFemaleVoice(lang) {
+  if (femaleVoiceCache[lang]) return femaleVoiceCache[lang];
+
+  const voices = speechSynthesis.getVoices();
+  if (voices.length === 0) return null;
+
+  // 女性を示すキーワード（英語・日本語・韓国語表記に対応）
+  const femaleKeywords = [
+    'female', 'woman', 'girl',
+    'kyoko', 'otoya', 'o-ren',       // macOS 日本語女性
+    'haruka', 'nanami', 'ayumi',      // Windows 日本語女性
+    'yuna', 'sora', 'seoyeon',        // 韓国語女성
+    'google 日本語', 'google 한국의',
+    '女性', 'Kyoko', 'Haruka',
+  ];
+
+  // ① 同じ言語コードで女性キーワード含む声
+  let voice = voices.find(v =>
+    v.lang.startsWith(lang.split('-')[0]) &&
+    femaleKeywords.some(k => v.name.toLowerCase().includes(k.toLowerCase()))
+  );
+
+  // ② 見つからなければ同じ言語の最初の声（多くは女性）
+  if (!voice) {
+    voice = voices.find(v => v.lang.startsWith(lang.split('-')[0]));
+  }
+
+  if (voice) femaleVoiceCache[lang] = voice;
+  return voice || null;
+}
+
+function speak(text, lang, rate = 0.9) {
+  if (!window.speechSynthesis) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang;
+  u.rate = rate;
+  u.pitch = 1.1;  // 少し高めに（女性声らしく）
+
+  const voice = getFemaleVoice(lang);
+  if (voice) u.voice = voice;
+
+  speechSynthesis.speak(u);
+}
+
+function stopSpeech() { if (window.speechSynthesis) speechSynthesis.cancel(); }
+
+// 声リストの読み込みを待ってから初期化
+function initVoices() {
+  return new Promise(resolve => {
+    const voices = speechSynthesis.getVoices();
+    if (voices.length > 0) { resolve(); return; }
+    // 一部ブラウザは非同期で読み込む
+    speechSynthesis.onvoiceschanged = () => resolve();
+    setTimeout(resolve, 1500); // タイムアウト保険
+  });
+}
+
+// 韓国語 + 日本語 を順に読む
+function speakKrJa(phrase) {
+  stopSpeech();
+  speak(phrase.kr, 'ko-KR', 0.88);
+  setTimeout(() => speak(phrase.ja, 'ja-JP', 0.92), 1400);
+}
+// 韓国語のみ
+function speakKr(phrase) { stopSpeech(); speak(phrase.kr, 'ko-KR', 0.88); }
+// 日本語のみ（復習ヒント）
+function speakJa(phrase) { stopSpeech(); speak(phrase.ja, 'ja-JP', 0.92); }
+
+// ============================================================
+// TIMERS
+// ============================================================
+function clearTimers() { stepTimers.forEach(clearTimeout); stepTimers = []; }
+function after(ms, fn) { const t = setTimeout(fn, ms); stepTimers.push(t); }
+
+// ============================================================
+// LESSON FLOW（韓国語+日本語 → 間 → 韓国語のみ → 間 → 韓国語+日本語）
+// ============================================================
+function playCurrentPhrase() {
+  if (!isPlaying) return;
+  const p = currentPhrase();
+  step = 'eng1';
+  setDogPlaying(true);
+  speakKrJa(p);   // ① 韓国語 → 日本語
+  renderCard();
+
+  after(5500, () => {
+    if (!isPlaying) return;
+    step = 'blank1'; renderCard();
+    after(3000, () => {
+      if (!isPlaying) return;
+      step = 'eng2'; speakKr(p); renderCard();  // ② 韓国語のみ
+      after(5000, () => {
+        if (!isPlaying) return;
+        step = 'blank2'; renderCard();
+        after(3000, () => {
+          if (!isPlaying) return;
+          step = 'eng3'; speakKrJa(p); renderCard(); // ③ 韓国語 → 日本語
+          after(5500, () => {
+            if (!isPlaying) return;
+            step = 'blank3'; renderCard();
+            after(1500, () => { if (!isPlaying) return; nextPhrase(); });
+          });
+        });
+      });
+    });
+  });
+}
+
+function nextPhrase() {
+  const p = todayPhrases();
+  if (currentIndex < p.length - 1) {
+    currentIndex++;
+    playCurrentPhrase();
+  } else {
+    isFinished = true;
+    isPlaying = false;
+    step = 'idle';
+    setDogPlaying(false);
+    const next = Math.min(currentDay + 1, 60);
+    saveDay(next);
+    renderAll();
+  }
+}
+
+// ============================================================
+// REVIEW FLOW
+// ============================================================
+function startReview() {
+  const p = [...todayPhrases()].sort(() => Math.random() - 0.5).slice(0, 3);
+  reviewPhrases = p;
+  reviewIndex = 0;
+  isReviewing = true;
+  isReviewFinished = false;
+  setDogPlaying(true);
+  playReviewCurrent();
+  renderAll();
+}
+
+function playReviewCurrent() {
+  if (!isReviewing) return;
+  const p = reviewPhrases[reviewIndex];
+  step = 'rev_kr'; speakJa(p); renderCard();  // 日本語を聞いて韓国語で答える
+  after(4000, () => {
+    if (!isReviewing) return;
+    step = 'rev_blank'; renderCard();
+    after(2000, () => {
+      if (!isReviewing) return;
+      step = 'rev_en'; speakKr(p); renderCard();  // 答え：韓国語
+      after(4500, () => {
+        if (!isReviewing) return;
+        step = 'rev_blank_end'; renderCard();
+        after(1500, () => { if (!isReviewing) return; nextReview(); });
+      });
+    });
+  });
+}
+
+function nextReview() {
+  if (reviewIndex < reviewPhrases.length - 1) {
+    reviewIndex++;
+    playReviewCurrent();
+  } else {
+    isReviewing = false;
+    isReviewFinished = true;
+    setDogPlaying(false);
+    step = 'idle';
+    renderAll();
+  }
+}
+
+// ============================================================
+// CONTROLS
+// ============================================================
+function handlePlay() {
+  if (isPlaying || isReviewing) return;
+  if (isReviewFinished) {
+    isReviewFinished = false; isFinished = false; currentIndex = 0;
+    isPlaying = true; step = 'idle';
+    playCurrentPhrase(); renderAll(); return;
+  }
+  if (isFinished) { startReview(); return; }
+  isPlaying = true; isFinished = false; currentIndex = 0;
+  playCurrentPhrase(); renderAll();
+}
+
+function handleStop() {
+  clearTimers(); stopSpeech();
+  isPlaying = false; isReviewing = false;
+  step = 'idle'; setDogPlaying(false);
+  renderAll();
+}
+
+// ============================================================
+// DAY PICKER
+// ============================================================
+function openDayPicker() { buildDayGrid(); document.getElementById('modalOverlay').classList.add('open'); }
+function closeDayPicker() { document.getElementById('modalOverlay').classList.remove('open'); }
+function closeDayPickerOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeDayPicker(); }
+function selectDay(d) {
+  handleStop(); currentDay = d; currentIndex = 0;
+  isFinished = false; isReviewFinished = false;
+  saveDay(d); closeDayPicker(); renderAll();
+}
+function buildDayGrid() {
+  const grid = document.getElementById('dayGrid');
+  grid.innerHTML = '';
+  for (let d = 1; d <= 60; d++) {
+    const btn = document.createElement('button');
+    btn.className = 'day-grid-btn' + (d === currentDay ? ' current' : '');
+    btn.innerHTML = `<span class="dnum">${d}</span><span class="dlabel">Day</span>`;
+    btn.onclick = () => selectDay(d);
+    grid.appendChild(btn);
+  }
+}
+
+// ============================================================
+// DOG ANIMATION
+// ============================================================
+function setDogPlaying(on) {
+  const wrap = document.getElementById('dogWrap');
+  wrap.classList.toggle('playing', on);
+  wrap.classList.toggle('singing', on);
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderAll() {
+  document.getElementById('dogEmoji').textContent = dogEmoji();
+  document.getElementById('dayLabel').textContent = currentDay;
+  const p = todayPhrases();
+  const prog = p.length > 0 ? (currentIndex / p.length) * 100 : 0;
+  document.getElementById('progressBar').style.width = prog + '%';
+  document.getElementById('progressLabel').textContent = `${currentIndex + 1} / ${p.length} フレーズ目`;
+
+  const playBtn = document.getElementById('playBtn');
+  const btnIcon = document.getElementById('btnIcon');
+  const btnLabel = document.getElementById('btnLabel');
+
+  if (isReviewFinished) {
+    playBtn.className = 'play-btn';
+    btnIcon.textContent = '↺'; btnLabel.textContent = 'もう一度';
+    playBtn.disabled = false;
+  } else if (isFinished) {
+    playBtn.className = 'play-btn review-mode';
+    btnIcon.textContent = '📖'; btnLabel.textContent = '復習\nスタート';
+    playBtn.disabled = false;
+  } else {
+    playBtn.className = 'play-btn';
+    btnIcon.textContent = '▶'; btnLabel.textContent = 'スタート';
+    playBtn.disabled = isPlaying || isReviewing;
+  }
+
+  const stopBtn = document.getElementById('stopBtn');
+  stopBtn.disabled = !isPlaying && !isReviewing;
+  stopBtn.className = 'stop-btn' + ((isPlaying || isReviewing) ? ' active' : '');
+  renderPhraseNum();
+  renderCard();
+}
+
+function renderPhraseNum() {
+  const el = document.getElementById('phraseNum');
+  if (isReviewing || isReviewFinished) {
+    const label = isReviewFinished ? '完了' : `${reviewIndex + 1}/3`;
+    el.innerHTML = `<span class="num-review-sub">復習</span><span class="num-review">${label}</span>`;
+  } else {
+    el.innerHTML = `<span class="num-sub">No.</span><span class="num-main">${currentPhrase().id}</span><span class="num-total">/ 300</span>`;
+  }
+}
+
+function renderCard() {
+  const el = document.getElementById('cardContent');
+  el.className = 'card-content fade-in';
+
+  // カテゴリ名マップ（韓国語→日本語）
+  const catJa = {
+    "① 인사":    "① 挨拶",
+    "② 일상회화": "② 日常会話",
+    "③ 따뜻한 말":"③ 優しい言葉",
+    "④ 유머":    "④ ユーモア",
+    "⑤ 생활표현": "⑤ 生活表現",
+    "⑥ 마무리":  "⑥ 会話終了",
+  };
+
+  if (isReviewFinished) {
+    el.innerHTML = `
+      <div class="finished-emoji">🎊</div>
+      <div class="finished-title">復習も完了です！</div>
+      <div class="finished-sub">今日もよく頑張りました 🐾<br>明日もわんこと一緒に<br>また練習しましょうね</div>
+    `;
+    return;
+  }
+
+  if (isReviewing) {
+    const p = reviewPhrases[reviewIndex] || {kr:'', ja:''};
+    const dots = reviewPhrases.map((_, i) =>
+      `<div class="rdot${i <= reviewIndex ? ' active' : ''}"></div>`
+    ).join('');
+
+    if (step === 'rev_kr') {
+      el.innerHTML = `
+        <div class="review-dots">${dots}</div>
+        <div class="review-counter">復習 ${reviewIndex + 1} / ${reviewPhrases.length}</div>
+        <div class="review-kr-big">🔊 ${p.ja}</div>
+        <div class="hint-text">← 韓国語で言えるかな？</div>
+      `;
+    } else if (step === 'rev_blank') {
+      el.innerHTML = `
+        <div class="review-dots">${dots}</div>
+        <div class="review-thinking">🤔</div>
+        <div class="review-kr-big">${p.ja}</div>
+        <div class="hint-text">さあ、韓国語で言ってみよう！</div>
+      `;
+    } else if (step === 'rev_en' || step === 'rev_blank_end') {
+      el.innerHTML = `
+        <div class="review-dots">${dots}</div>
+        <div class="review-answer-text">🔊 ${p.kr}</div>
+        <div class="korean-row"><span>🔊</span><span class="korean-text">${p.ja}</span></div>
+        <div class="done-text">✨ 正解！</div>
+      `;
+    }
+    return;
+  }
+
+  if (isFinished) {
+    el.innerHTML = `
+      <div class="finished-emoji">🎉</div>
+      <div class="finished-title">今日のレッスン完了！</div>
+      <div class="finished-sub">5フレーズ、よくできました！<br>復習ボタンを押してみよう 🐾</div>
+    `;
+    return;
+  }
+
+  if (!isPlaying) {
+    const p = todayPhrases();
+    const list = p.map(ph => `<div class="idle-phrase-item">• ${ph.kr}</div>`).join('');
+    el.innerHTML = `
+      <div class="idle-day-text">今日は<br>Day ${currentDay} です 🌸</div>
+      <div class="idle-phrases">${list}</div>
+      <div class="idle-hint">下のボタンを押して<br>スタートしましょう！</div>
+    `;
+    return;
+  }
+
+  const p = currentPhrase();
+  const catLabel = catJa[p.cat] || p.cat;
+
+  if (step === 'eng1' || step === 'eng3') {
+    el.innerHTML = `
+      <span class="category-badge">${catLabel}</span>
+      <div class="english-text">🔊 ${p.kr}</div>
+      <div class="korean-row"><span>🔊</span><span class="korean-text">${p.ja}</span></div>
+      <div class="hint-text">← いっしょに声に出してみよう！</div>
+    `;
+  } else if (step === 'blank1' || step === 'blank2') {
+    el.innerHTML = `
+      <span class="category-badge">${catLabel}</span>
+      <div class="prompt-big">🐾</div>
+      <div class="prompt-text">さあ、声に出してみよう！</div>
+    `;
+  } else if (step === 'eng2') {
+    el.innerHTML = `
+      <span class="category-badge">${catLabel}</span>
+      <div class="korean-row" style="margin-top:4px">
+        <span>🔊</span><span style="font-size:14px;color:var(--dark-blue);">韓国語を聞いて、声に出して！</span>
+      </div>
+      <div class="review-kr-big">${p.ja}</div>
+    `;
+  } else if (step === 'blank3') {
+    el.innerHTML = `
+      <div class="prompt-big">✨</div>
+      <div class="done-text">よくできました！</div>
+    `;
+  }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadDay();
+initVoices().then(() => {
+  // 声リストが揃ってからキャッシュを温める
+  getFemaleVoice('ko-KR');
+  getFemaleVoice('ja-JP');
+  renderAll();
+});
+</script>
+</body>
+</html>
